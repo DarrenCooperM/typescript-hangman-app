@@ -4,7 +4,8 @@
   <h1>HANGMAN APP</h1>
   
   <p> technologies used:</p>
-  <p>HTML5, CSS, Typescript, React
+  <h2>HTML5, CSS, Typescript, React</h2>
+  <br>
   
   <img src="https://skillicons.dev/icons?i=html,css,typescript,react" />
   

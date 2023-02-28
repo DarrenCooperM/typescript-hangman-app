@@ -10,12 +10,12 @@ function getWord() {
 
 function App() {
   const [wordToGuess, setWordToGuess] = useState(getWord);
-
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const incorrectLetters = guessedLetters.filter(
     (letter) => !wordToGuess.includes(letter)
   );
+
   const isLoser = incorrectLetters.length >= 6;
   const isWinner = wordToGuess
     .split("")
@@ -24,26 +24,27 @@ function App() {
   const addGuessedLetter = useCallback(
     (letter: string) => {
       if (guessedLetters.includes(letter) || isLoser || isWinner) return;
+
       setGuessedLetters((currentLetters) => [...currentLetters, letter]);
     },
-    [guessedLetters, isLoser, isWinner]
+    [guessedLetters, isWinner, isLoser]
   );
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const key = e.key;
-      // checking if the input letter is from a-z
       if (!key.match(/^[a-z]$/)) return;
-      // if it did - continue on or if it didnt, ignore everything
+
       e.preventDefault();
       addGuessedLetter(key);
     };
+
     document.addEventListener("keypress", handler);
 
     return () => {
       document.removeEventListener("keypress", handler);
     };
-  }, [guessedLetters]);
+  }, [guessedLetters, addGuessedLetter]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -75,7 +76,7 @@ function App() {
     >
       <div style={{ fontSize: "2rem", textAlign: "center" }}>
         {isWinner && "Winner! - Refresh to try again"}
-        {isLoser && "Nice Try! - Refresh to try again"}
+        {isLoser && "Nice Try - Refresh to try again"}
       </div>
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
       <HangmanWord
